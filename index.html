@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+	<style>
+		body{margin:0;padding:0;}
+		*{
+			margin:0;padding:0;
+		}
+		canvas{
+			display: block;
+		}
+		.view{position: relative;}
+		#coins{width:90px;height: 70px;line-height: 70px;position:absolute;left:0px;top:0;padding-left: 60px;background:url(image/banana.png) no-repeat;background-size:30px 30px;background-position:20px 20px;font-size: 34px;color: #FFF;}
+	</style>
+	<title>简单跑酷游戏</title>
+	<script src="./easeljs-0.7.1.min.js"></script>
+	<script src="./preloadjs-0.4.1.min.js"></script>
+	<script src="./person.js"></script>
+	<script src="./otherThings.js"></script>
+</head>
+<body>
+	<div class="view">
+		<canvas id="cas">您的浏览器不支持canvas</canvas>
+		<div id="coins">0</div>
+	</div>
+	<div id="showFPS" style="display: block;"></div>
+
+	<script src="./main.js"></script>
+</body>
+</html>
