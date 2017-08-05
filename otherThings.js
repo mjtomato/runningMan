@@ -16,6 +16,7 @@ window.onload = function (argument) {
 
 		var Stone = function(x,kind,allImage){
 			this.x = x;
+			this.scaley;
 			this.kind = kind;
 			this.allImage = allImage;
 			this.init();
@@ -29,27 +30,30 @@ window.onload = function (argument) {
 				this.h = this.allImage[this.kind].height;
 				this.w = this.allImage[this.kind].width*2;
 				this.y = C_H - this.h;
+				
 				if (this.kind == "A") {
 					this.y = PER_HEIGHT*6;
 					this.h =  PER_HEIGHT*3;
+					this.scaley = (PER_HEIGHT*3)/this.allImage[this.kind].height;
 				}else if (this.kind == "D") {
-					// console.log('D');
-					this.y = PER_HEIGHT*2
+					this.y = PER_HEIGHT*2;
+					this.scaley = (PER_HEIGHT*1)/this.allImage[this.kind].height;
 				}else if(this.kind == "E"){
-					// console.log(PER_HEIGHT*3)
 					this.y = PER_HEIGHT*3;
+					this.scaley = (PER_HEIGHT*1)/this.allImage[this.kind].height;
 				}else if(this.kind == "F"){
 					this.y = PER_HEIGHT*4;
+					this.scaley = (PER_HEIGHT*1)/this.allImage[this.kind].height;
 				}
 				this.shape.graphics.beginBitmapFill(this.allImage[this.kind]).drawRect(0, 0, this.w, this.h);
-				this.shape.setTransform(this.x, this.y, 1, 1);
+				this.shape.setTransform(this.x, this.y, 1, this.scaley);
 				// console.log('floor',this.x , this.y)
 			}else {
 				this.h = -1000;
 				this.w = 170;
 				this.y = C_H - this.h;
 				this.shape.graphics.beginFill("#000").drawRect(0, 0, this.w, this.h);
-				this.shape.setTransform(this.x, this.y, 1, 1);
+				this.shape.setTransform(this.x, this.y, 1, this.scaley);
 			}
 			this.shape.visible = false;
 			this.shape.cache(0 , 0 , this.w , this.h);
@@ -81,13 +85,10 @@ window.onload = function (argument) {
 				}else if (this.kind == "5") {
 					this.y = PER_HEIGHT*5;
 				}
-				// this.y = PER_HEIGHT*1;
-				console.log(this.x,this.y);
+				// console.log(this.x,this.y);
 				this.shape.graphics.beginBitmapFill(image).drawRect(0, 0, image.width, image.height);
-				// this.shape.scaleX = COIN_SCALE_X;
-				// this.shape.scaleY = COIN_SCALE_Y;
 				this.shape.setTransform(this.x, this.y, COIN_SCALE_X, COIN_SCALE_Y);
-				this.shape.visible = false;
+				this.shape.visible = true;
 				stage.addChild(this.shape);
 
 			}
@@ -121,8 +122,8 @@ window.onload = function (argument) {
 
 			this.size = function(){
 				return {
-					w:image.width*COIN_SCALE_X,
-					h:image.height*COIN_SCALE_Y
+					w:PER_WIDTH,
+					h:PER_HEIGHT
 				}
 			}
 		}

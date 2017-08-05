@@ -1,7 +1,7 @@
 var fps = document.getElementById("showFPS"),
 		countCoin = document.getElementById("coins");
 	var stage , C_W , C_H , loader;
-	var man , ground , sky;
+	var man , ground , sky , wave ,  cloudArr = [];
 	var screenW = window.screen.width,
     	screenH = window.screen.height, 
     	perWid = screenW/10,
@@ -21,6 +21,8 @@ var fps = document.getElementById("showFPS"),
 			{src:"image/monkey.png" , id:"man"},
 			{src:"image/gf.png" , id:"ground"},
 			{src:"image/bg.png" , id:"bg"},
+			{src:"image/bbg.png" , id:"wave"},
+			{src:"image/cloudy.png" , id:"cloudy"},
 			{src:"image/mf.png" , id:"high"},
 			{src:"image/banana.png" , id:"coin"}
 		]
@@ -56,9 +58,9 @@ var fps = document.getElementById("showFPS"),
 		"---1111---33--33222233--1122--"
 	],
 	mfloor = [
-		"CCFFCCCCFC",
-		"CCFFCCCCFC",
-		"CCFFCCCCFC"
+		"CCFFCCCCFCCCCFFFECCCCCFFCCCCCE",
+		"CCFFCCCCFCCCCFFFECCCCCFFCCCCCE",
+		"CCFFCCCCFCCCCFFFECCCCCFFCCCCCE"
 	]
 
 	function handleComplete(){		//当图片素材load完后执行该方法
@@ -66,12 +68,30 @@ var fps = document.getElementById("showFPS"),
 			lowground = loader.getResult("ground"),
 			highground = loader.getResult("high"),
 			bgImage = loader.getResult("bg"),
+			waveIamge = loader.getResult("wave"),
+			cloudyImg = loader.getResult("cloudy")
 			coins = loader.getResult("coin");
 
 		sky = new createjs.Shape();
-		sky.graphics.bf(bgImage).drawRect(0,0,C_W,C_H);
-		sky.setTransform(0, 0, 1 , C_H/bgImage.height);
+		sky.graphics.bf(bgImage).drawRect(0,0,C_W + bgImage.width,bgImage.height);
+		sky.tileW = bgImage.width;
 		stage.addChild(sky);
+
+		// 波浪
+		wave = new createjs.Shape();
+		wave.graphics.beginBitmapFill(waveIamge).drawRect(0, 1, C_W + waveIamge.width, perHei*3.2);
+		wave.tileW = waveIamge.width;
+		wave.y = C_H - perHei*3.2;
+		stage.addChild(wave);
+
+		//云
+		for(var i =0 ; i < 3; i++){
+			cloudArr[i] = new createjs.Shape();
+			cloudArr[i].graphics.bf(cloudyImg).drawRect(0 , 0 , cloudyImg.width , cloudyImg.height)
+			cloudArr[i].setTransform(perWid * (i*5+4), perHei*Math.floor(Math.random()*3)+Math.random()*25, 0.5, 0.5);
+			// cloudArr[i].alpha = 0.7;
+			stage.addChild(cloudArr[i]);
+		}
 
 		man = createMan(100,perHei*5,manImage);
 
@@ -122,7 +142,7 @@ var fps = document.getElementById("showFPS"),
 				// case 10:kind="B";break;
 				case 20:kind="C";break;
 			}
-			var st = createStone(C_W , kind , stoneImage);
+			var st = createStone(perWid , kind , stoneImage);
 			allStones.push(st)
 		}
 
@@ -134,7 +154,7 @@ var fps = document.getElementById("showFPS"),
 				case 10:mkind="E";break;
 				case 15:mkind="F";break;
 			}
-			var mf = createStone(C_W , mkind , mfImage);
+			var mf = createStone(perWid , mkind , mfImage);
 			allMfloor.push(mf);
 		}
 
@@ -143,7 +163,7 @@ var fps = document.getElementById("showFPS"),
 		for(var i=0;i<30;i++){			//把需要用到的金币预先放入容器中
 			
 			var k = coinarr[i];
-			console.log(i , k);
+			// console.log(i , k);
 			switch(k){
 				case "1":bankind="1";break;
 				case "2":bankind="2";break;
@@ -165,27 +185,31 @@ var fps = document.getElementById("showFPS"),
 		var arg = mapData[Mix].charAt(mapIndex),
 			coarg = coinCode[Mix].charAt(mapIndex),
 			mfarg = mfloor[Mix].charAt(mapIndex),
-			cc = null;
+			coincc = null,
+			cc = null,
+			mfcc = null;
 
-		if(coarg !== "-"){
-			for(var i=0;i<allCoins.length;i++){
-				if(!allCoins[i].shape.visible){
-					cc = allCoins[i];
-					cc.shape.visible = true;
-					break;
-				}
-			}
-		}
-
-
-		// for (var i = 0; i < allCoins.length; i++) {
-		// 	allCoins[i]
-		// 	if (!allCoins[i].shape.visible && allCoins[i].kind === coarg) {
-		// 		cc = allCoins[i];
-		// 		cc.shape.visible = true;
-		// 		break;
+		// if(coarg !== "-"){
+		// 	for(var i=0;i<allCoins.length;i++){
+		// 		if(!allCoins[i].shape.visible){
+		// 			cc = allCoins[i];
+		// 			cc.shape.visible = true;
+		// 			break;
+		// 		}
 		// 	}
 		// }
+
+
+		for (var i = 0; i < allCoins.length; i++) {
+			// allCoins[i]
+			if (allCoins[i].kind === coarg) {
+				var coinst = allCoins[i];
+				// coincc = allCoins[i];
+				coinst.shape.visible = true;
+				
+				break;
+			}
+		}
 
 		for(var z=0;z<allStones.length;z++){
 			if(!allStones[z].shape.visible&&allStones[z].kind===arg){
@@ -210,9 +234,9 @@ var fps = document.getElementById("showFPS"),
 				mf.shape.visible = true;
 				mf.shape.x = lastmfloor===null?0:lastmfloor.shape.x+lastmfloor.w;
 
-				if(cc){
-					cc.shape.x = lastmfloor===null?allMfloor[k].w/2-cc.size().w/2:lastmfloor.shape.x+lastmfloor.w+allMfloor[k].w/2-cc.size().w/2;
-					cc.shape.y = mfarg==="C"? C_H-loader.getResult("high").height-50 : allMfloor[k].shape.y-cc.size().h/2-50;
+				if(mfcc){
+					mfcc.shape.x = lastmfloor===null?allMfloor[k].w/2-mfcc.size().w/2:lastmfloor.shape.x+lastmfloor.w+allMfloor[k].w/2-mfcc.size().w/2;
+					mfcc.shape.y = mfarg==="C"? C_H-loader.getResult("high").height-50 : allMfloor[k].shape.y-mfcc.size().h/2-50;
 				}
 
 				lastmfloor = mf;
@@ -274,16 +298,9 @@ var fps = document.getElementById("showFPS"),
 					man.ground.push(m);
 
 					if((m.shape.x+m.w/2)>(kuang.x+man.size().w/2)&&m.y<(kuang.y+man.size().h-10)){
-						// man.sprite.x = m.shape.x-man.picsize().w-8;
-						// man.sprite.y = m.shape.y + man.picsize.h;
 						console.log('mf true');
-						// man.sprite.y = perHei*5;
 						mfcg = true;
-						// if (man.sprite.y <= m.shape.y) {
-						// 	man.sprite.y = m.shape.y - man.picsize.h;
-						// 	mfcg = true;
-						// }
-						
+						// debugger;
 					}
 				}
 			}
@@ -296,6 +313,18 @@ var fps = document.getElementById("showFPS"),
 	}
 
 	function tick(event){		//舞台逐帧逻辑处理函数
+		var deltaS = event.delta / 1000;
+		sky.x = (sky.x - deltaS * 100) % sky.tileW;
+		wave.x = (wave.x - deltaS * 100) % wave.tileW;
+		//云
+		for (var i = 0; i < 3; i++) {
+			cloudArr[i].x = (cloudArr[i].x - deltaS * 50);
+			if (cloudArr[i].x + cloudArr[i].width * cloudArr[i].scaleX <= 0) {
+				cloudArr[i].x = C_W;
+				cloudArr[i].y = perHei*Math.floor(Math.random()*3) + Math.random()*25;
+			}
+		}
+
 		man.update();
 		// console.log('tick');
 		kuang.x = man.sprite.x+(man.picsize().w*1.5-man.size().w)/2;	//参考框
@@ -304,12 +333,12 @@ var fps = document.getElementById("showFPS"),
 		man.ground.length=0;
 		var cg = stoneHandle();
 		var mfcg = mdfloorHandle();
-		// console.log(mfcg);
-
 
 		if(man.ground[0]&&!cg&&!mfcg) {
-			man.ground.sort(function(a,b){return b.y-a.y});
-			man.endy = man.ground[0].y-man.picsize().h*1.5;
+			man.ground.sort(function(a,b){
+				return a.y-b.y;
+			});
+			man.endy = man.ground[0].y-man.picsize().h*1;
 		}
 
 		allCoins.forEach(function(cc , index){
@@ -330,8 +359,5 @@ var fps = document.getElementById("showFPS"),
 		document.getElementById("showFPS").innerHTML = man.endy
 		stage.update(event);
 	}
-
-
-	
 
 	init();

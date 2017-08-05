@@ -61,8 +61,6 @@
 		update:function(){
 			var sprite = this.sprite;
 			var time = createjs.Ticker.getInterval()/1000;
-			// console.log('外层this.x===',this.x);
-			// console.log('外层sprite.x===',sprite.x);
 			// debugger;
 			if(this.state==="run"){
 				if(sprite.x< (this.x)){
