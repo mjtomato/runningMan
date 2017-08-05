@@ -189,27 +189,27 @@ var fps = document.getElementById("showFPS"),
 			cc = null,
 			mfcc = null;
 
-		// if(coarg !== "-"){
-		// 	for(var i=0;i<allCoins.length;i++){
-		// 		if(!allCoins[i].shape.visible){
-		// 			cc = allCoins[i];
-		// 			cc.shape.visible = true;
-		// 			break;
-		// 		}
-		// 	}
-		// }
-
-
-		for (var i = 0; i < allCoins.length; i++) {
-			// allCoins[i]
-			if (allCoins[i].kind === coarg) {
-				var coinst = allCoins[i];
-				// coincc = allCoins[i];
-				coinst.shape.visible = true;
-				
-				break;
+		if(coarg !== "-"){
+			for(var i=0;i<allCoins.length;i++){
+				if(!allCoins[i].shape.visible){
+					cc = allCoins[i];
+					cc.shape.visible = true;
+					break;
+				}
 			}
 		}
+
+
+		// for (var i = 0; i < allCoins.length; i++) {
+		// 	// allCoins[i]
+		// 	if (allCoins[i].kind === coarg) {
+		// 		var coinst = allCoins[i];
+		// 		// coincc = allCoins[i];
+		// 		coinst.shape.visible = true;
+				
+		// 		break;
+		// 	}
+		// }
 
 		for(var z=0;z<allStones.length;z++){
 			if(!allStones[z].shape.visible&&allStones[z].kind===arg){
