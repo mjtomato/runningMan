@@ -308,7 +308,7 @@ var fps = document.getElementById("showFPS"),
 
 
 		if(man.ground[0]&&!cg&&!mfcg) {
-			man.ground.sort(function(a,b){return b.h-a.h});
+			man.ground.sort(function(a,b){return b.y-a.y});
 			man.endy = man.ground[0].y-man.picsize().h*1.5;
 		}
 
