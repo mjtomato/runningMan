@@ -129,8 +129,9 @@ var mapIndex = 0,		//地图序列
 	allStones = [],		//存放所有的石头
 	allCoins = [],		//所有金币
 	lastStone = null;	//存放最后一个石头
-allMfloor = [],     //存放底图所以上地板
-	lastmfloor = null    //存放最后一个上地板
+	allMfloor = [],     //存放底图所以上地板
+	lastmfloor = null,    //存放最后一个上地板
+	tmpMfloor = [];
 
 function mapHandle(lowground, highground, coins) {		//初始化地图
 	allStones.length = 0;
@@ -233,7 +234,19 @@ function setStone(remove) {		//添加陆地的石头
 			var mf = allMfloor[k];
 			mf.shape.visible = true;
 			mf.shape.x = lastmfloor === null ? 0 : lastmfloor.shape.x + lastmfloor.w;
-
+			console.log(mf);
+			tmpMfloor.push({
+				shape: {
+					x: mf.shape.x
+				},
+				w: mf.w,
+				x: mf.x,
+				kind: mf.kind
+			});
+			console.log(k ,tmpMfloor);
+			// tmpMfloor.forEach(function(m){				
+			// 	console.log(m.shape.x,m);
+			// })
 			if (mfcc) {
 				mfcc.shape.x = lastmfloor === null ? allMfloor[k].w / 2 - mfcc.size().w / 2 : lastmfloor.shape.x + lastmfloor.w + allMfloor[k].w / 2 - mfcc.size().w / 2;
 				mfcc.shape.y = mfarg === "C" ? C_H - loader.getResult("high").height - 50 : allMfloor[k].shape.y - mfcc.size().h / 2 - 50;
@@ -296,6 +309,7 @@ function mdfloorHandle() {
 			var juli = Math.abs((kuang.x + man.size().w / 2) - (m.shape.x + m.w / 2));
 			if (juli <= (man.size().w + m.w) / 2 && man.ground.indexOf(m) === -1) {
 				// console.log(m.shape.y, kuang.y, man.size().h);
+				// console.log(kuang.x , juli);
 				if (m.shape.y >= (kuang.y + man.size().h)) {
 					man.ground.push(m);
 				}
@@ -341,6 +355,8 @@ function tick(event) {		//舞台逐帧逻辑处理函数
 	kuang.y = man.sprite.y;
 
 	man.ground.length = 0;
+	man.mapFloor.length = 0;
+	man.mapFloor = tmpMfloor.slice(0);
 	var cg = stoneHandle();
 	var mfcg = mdfloorHandle();
 

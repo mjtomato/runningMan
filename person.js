@@ -22,6 +22,7 @@
 		this.jumpNum = 0;
 		this.jumpMax = 1;
 		this.init(img);
+		this.mapFloor = [];
 	}
 
 	Man.prototype = {
@@ -62,6 +63,7 @@
 			var sprite = this.sprite;
 			var time = createjs.Ticker.getInterval() / 1000;
 			// debugger;
+			// console.log(sprite.x , this.x)
 			if (this.state === "run") {
 				if (sprite.x < (this.x)) {
 					sprite.x += this.vx;
@@ -70,7 +72,8 @@
 				}
 				// debugger;
 			}
-			if (this.endy > sprite.y || this.state === "jump") {
+
+			if (this.endy > sprite.y || this.state === "jump") {				
 				var nexty = sprite.y + time * this.vy * PROPORTION;
 				this.vy += time * GRAVITY;
 				sprite.y += time * this.vy * PROPORTION;
@@ -85,17 +88,24 @@
 				// 	this.vy = 0;
 				// 	// sprite.y
 				// }
+			}else if (this.endy >= sprite.y && this.jump === "jump") {
 				var that = this;
+				var tmp = true;
 				this.ground.forEach(function(ele,i) {
-					// var tmp = true;
-					if(ele.y + ele.h >= sprite.y){
+					if(ele.y + ele.h >= sprite.y && ele.x <= sprite.x + sprite.width){
 						console.log('enter true');
-						that.vy = 0;
+						tmp = false;
+						// that.vy = 0;
+						console.log(tmp);
 					}
 					//  && ele.x <= sprite.x + sprite.width
 					// console.log(ele,ele.y , i , sprite.y , ele.y>sprite.y);
 				});
+				if (!tmp) {
+					this.vy = 0;
+				}
 				console.log('-------------');
+				
 			}
 			
 			// if (sprite.y <= this.ground) {
@@ -130,6 +140,42 @@
 			this.state = "jump";
 			this.sprite.gotoAndPlay("jump");
 			this.jumpNum++;
+			var that = this;
+			var flag = false;
+			this.mapFloor.forEach(function(m,i) {
+				var kuang = that.sprite.x + (that.picsize().w * 1.5 - that.size().w) / 2;
+				console.group('臭屁');
+				// console.log(kuang, that.size().w, m.shape.x , m.w)
+				var juli = Math.abs((kuang + that.size().w / 2) - (m.shape.x + m.w / 2));
+				console.log(m.shape.x);
+				// if (juli <= (that.size().w + m.w) / 2) {
+				// 	console.log(juli);
+				// }
+				// console.log(juli);
+				// console.log(m.kind !== 'A' , m.kind !== 'C' , juli <= (that.size().w + m.w) / 2)
+				console.groupEnd();
+				// if (m.shape.x + m.w >= that.sprite.x + that.size().w && m.shape.x <= that.sprite.x) {
+					// 非地板非空白
+					// 找出对应人物x的地板 可能不同Y属性的地板
+					if(m.kind !== 'C' && juli <= (that.size().w + m.w) / 2){
+						console.log(kuang, m.kind, m.shape.x, m.w)
+						// console.log(m.y + m.h, that.sprite.y);
+						if ( m.y + m.h <= that.sprite.y){
+							// console.log('enter true');
+							flag = true;
+						}
+						// that.vy = 0;
+					}
+				// }
+				// y判断
+				
+				//  && m.x <= sprite.x + sprite.width
+				// console.log(m,m.y , i , sprite.y , m.y>sprite.y);
+			});
+			if (flag) {
+				this.vy = 0;
+			}
+
 		},
 
 		die: function () {
