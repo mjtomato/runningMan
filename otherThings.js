@@ -28,7 +28,7 @@ window.onload = function (argument) {
 			this.shape = new createjs.Shape();
 			if(this.kind!=="C"){
 				this.h = this.allImage[this.kind].height;
-				this.w = this.allImage[this.kind].width*2;
+				this.w = this.allImage[this.kind].width;
 				this.y = C_H - this.h;
 				
 				if (this.kind == "A") {

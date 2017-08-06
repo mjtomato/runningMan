@@ -1,6 +1,6 @@
 var fps = document.getElementById("showFPS"),
 	countCoin = document.getElementById("coins");
-var stage, C_W, C_H, loader;
+var stage, C_W, C_H, loader , mmm;
 var man, ground, sky, wave, cloudArr = [];
 var screenW = window.screen.width,
 	screenH = window.screen.height,
@@ -58,9 +58,9 @@ var mapData = [
 		"---1111---33--33222233--1122--"
 	],
 	mfloor = [
-		"CCFFCCCCFCCCCFFFECCCCCFFCCCCCE",
-		"CCFFCCCCFCCCCFFFECCCCCFFCCCCCE",
-		"CCFFCCCCFCCCCFFFECCCCCFFCCCCCE"
+		"CCFFCCCCFCCCCFFFECCCCCFFCCCCCD",
+		"CCFFCCCCFCCCCFFFECCCCCFFCCCCCD",
+		"CCFFCCCCFCCCCFFFECCCCCFFCCCCCD"
 	]
 
 function handleComplete() {		//当图片素材load完后执行该方法
@@ -118,7 +118,7 @@ function handleComplete() {		//当图片素材load完后执行该方法
 		e.preventDefault();
 		e.stopPropagation();
 		if (man.jumpNum < man.jumpMax) {
-			man.jump();
+			man.jump(mmm);
 		}
 	})
 }
@@ -234,7 +234,7 @@ function setStone(remove) {		//添加陆地的石头
 			var mf = allMfloor[k];
 			mf.shape.visible = true;
 			mf.shape.x = lastmfloor === null ? 0 : lastmfloor.shape.x + lastmfloor.w;
-			console.log(mf);
+			// console.log(mf);
 			tmpMfloor.push({
 				shape: {
 					x: mf.shape.x
@@ -243,7 +243,7 @@ function setStone(remove) {		//添加陆地的石头
 				x: mf.x,
 				kind: mf.kind
 			});
-			console.log(k ,tmpMfloor);
+			// console.log(k ,tmpMfloor);
 			// tmpMfloor.forEach(function(m){				
 			// 	console.log(m.shape.x,m);
 			// })
@@ -278,6 +278,7 @@ function stoneHandle() {
 			}
 
 			var juli = Math.abs((kuang.x + man.size().w / 2) - (s.shape.x + s.w / 2));
+			// console.log(s.shape.x);
 			if (juli <= (man.size().w + s.w) / 2 && man.ground.indexOf(s) === -1) {
 				man.ground.push(s);
 
@@ -297,6 +298,8 @@ function stoneHandle() {
 
 function mdfloorHandle() {
 	var mfcg = false, overmdfloor = null;
+	var flag = false;
+	var tempM = '';
 	allMfloor.forEach(function (m) {   //遍历石头，确定玩家落点
 		// console.log(m.shape.visible);
 		if (m.shape.visible) {
@@ -308,26 +311,56 @@ function mdfloorHandle() {
 
 			var juli = Math.abs((kuang.x + man.size().w / 2) - (m.shape.x + m.w / 2));
 			if (juli <= (man.size().w + m.w) / 2 && man.ground.indexOf(m) === -1) {
-				// console.log(m.shape.y, kuang.y, man.size().h);
-				// console.log(kuang.x , juli);
+				// console.log(m.shape.x);
 				if (m.shape.y >= (kuang.y + man.size().h)) {
 					man.ground.push(m);
+
+				}
+
+				//碰头
+				// if ( ( ((m.shape.y + m.h * 3) <= kuang.y) || ((m.shape.y + m.h*2) <= kuang.y) )  && m.kind !== "C") {
+				// 	mmm = false;
+				// 	console.log('perHei*2');
+				// }else 
+				if ( (m.shape.y + m.h <= (kuang.y) ) && m.kind !== "C" && m.kind !== "D" && m.kind !== "E") {
+					mmm = true;
+					// man.ground.push(m);
+					// console.log(mmm , m.kind);
+					// return;
+				}else{
+					mmm = false;
+					// console.log('可以跳');
 				}
 
 				if ((m.shape.x + m.w / 2) > (kuang.x + man.size().w / 2)) {
-					// console.log('mf true');
 					// 碰脚
 					if (m.y < (kuang.y + man.size().h - 10)) {
 						mfcg = true;
-					}
-					// 碰头
-					// if (m.y + m.w > kuang.y) {
-					// 	mfcg = true;
-					// }
-					// debugger;
+						// man.sprite.x = m.shape.x - man.picsize().w - 8;
+					}					
 				}
+				var yjuli = Math.abs((kuang.y + man.size().h / 2) - (m.shape.y + m.h / 2));
+				if (m.kind !== "C") {
+					if (yjuli < (man.size().h + m.h)/2 - 10)  {
+						console.log(yjuli, man.size().h + m.h, kuang.y);
+						flag = false;
+						tempM = m;
+						// return;
+					} else {
+						// console.log(yjuli, man.size().h + m.h, kuang.y, 'false');
+						flag = true;					
+					}
+
+
+				}
+				// console.groupEnd();
+			}
+			if (!flag && tempM) {
+				man.sprite.x = tempM.shape.x - man.picsize().w - 8;	
+				console.log('enter tempM');				
 			}
 		}
+
 	});
 	if (overmdfloor) {
 		setStone(true);
@@ -356,7 +389,7 @@ function tick(event) {		//舞台逐帧逻辑处理函数
 
 	man.ground.length = 0;
 	man.mapFloor.length = 0;
-	man.mapFloor = tmpMfloor.slice(0);
+	man.mapFloor = allMfloor.slice(0);
 	var cg = stoneHandle();
 	var mfcg = mdfloorHandle();
 

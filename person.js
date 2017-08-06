@@ -5,7 +5,7 @@
 		SCALE_X = 0.5,	//X轴缩放
 		SCALE_Y = 0.5,	//Y轴缩放
 		GRAVITY = 15,	//重力加速度
-		JUMP_SPEED = 6,		//垂直速度
+		JUMP_SPEED = 5.8,		//垂直速度
 		PROPORTION = 150 / 1,  //游戏与实际的距离比例
 		PER_HEIGHT = screenH / 9,
 		kk = 0;
@@ -135,7 +135,7 @@
 			this.sprite.gotoAndPlay("run")
 		},
 
-		jump: function () {
+		jump: function (isjump) {
 			this.vy = -JUMP_SPEED;
 			this.state = "jump";
 			this.sprite.gotoAndPlay("jump");
@@ -144,35 +144,30 @@
 			var flag = false;
 			this.mapFloor.forEach(function(m,i) {
 				var kuang = that.sprite.x + (that.picsize().w * 1.5 - that.size().w) / 2;
-				console.group('臭屁');
-				// console.log(kuang, that.size().w, m.shape.x , m.w)
-				var juli = Math.abs((kuang + that.size().w / 2) - (m.shape.x + m.w / 2));
-				console.log(m.shape.x);
+				// var juli = Math.abs((kuang + that.size().w / 2) - (m.shape.x + m.w / 2));
 				// if (juli <= (that.size().w + m.w) / 2) {
 				// 	console.log(juli);
 				// }
-				// console.log(juli);
-				// console.log(m.kind !== 'A' , m.kind !== 'C' , juli <= (that.size().w + m.w) / 2)
-				console.groupEnd();
 				// if (m.shape.x + m.w >= that.sprite.x + that.size().w && m.shape.x <= that.sprite.x) {
 					// 非地板非空白
 					// 找出对应人物x的地板 可能不同Y属性的地板
-					if(m.kind !== 'C' && juli <= (that.size().w + m.w) / 2){
-						console.log(kuang, m.kind, m.shape.x, m.w)
-						// console.log(m.y + m.h, that.sprite.y);
-						if ( m.y + m.h <= that.sprite.y){
-							// console.log('enter true');
-							flag = true;
-						}
-						// that.vy = 0;
-					}
+					// if(m.kind !== 'C' && juli <= (that.size().w + m.w) / 2){
+					// 	if ( m.y + m.h <= that.sprite.y){
+					// 		// console.log('enter true');
+					// 		flag = true;
+					// 	}
+					// 	// that.vy = 0;
+					// }
 				// }
 				// y判断
 				
 				//  && m.x <= sprite.x + sprite.width
 				// console.log(m,m.y , i , sprite.y , m.y>sprite.y);
 			});
-			if (flag) {
+			// if (flag) {
+			// 	this.vy = 0;
+			// }
+			if (isjump) {
 				this.vy = 0;
 			}
 
