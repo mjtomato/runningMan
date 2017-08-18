@@ -1,0 +1,549 @@
+*{
+	margin:0;
+	padding:0;
+}
+html,body{
+	width:100%;
+	height:100%;
+	overflow:hidden;
+}
+button{
+	border: 0;
+	outline: 0;
+}
+.view{
+	position: relative;
+	width:100%;
+	height:100%;
+}
+
+/*弹框公共样式*/
+.surface{
+	width:90%;
+	height:60%;	
+	position: absolute;
+	top: 50%;
+	left:50%;
+	transform: translateY(-50%);
+	margin-left: -45%;
+}
+
+.maincanvas{
+	display: block;
+}
+
+
+/*loading*/
+.loadding{
+	width:100%;
+	height:100%;
+	background:url(../image/loading-bg.png) no-repeat;
+	background-size:100% 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 9;
+	display: none;
+}
+.loadding-monkey{
+	width:50%;
+	margin-left: 52%;
+	margin-bottom: 20px;
+	transform: translateX(-50%);
+	margin-top: 30%;
+}
+.loadding-inner{
+	width:80%;
+	height:13%;
+	margin-left: 10%;
+	background: url(../image/loading-bar.png) no-repeat top center;
+	background-size: 100%;
+	/*text-align: center;*/
+}
+.loadding-inner>span{
+	display:inline-block;
+	width:10%;
+	height:54%;
+	margin-top: 3.2%;
+	margin-left: 3%;
+	background-color: #FDA800;
+	border-radius: 100px;
+	-webkit-border-radius: 100px;
+	-moz-border-radius: 100px;
+	-o-border-radius: 100px;
+}
+.loadding-txt{
+	width:50%;
+	margin-left: 50%;
+	transform: translateX(-50%);
+}
+
+/*界面分数*/
+.coinbox{
+	width:90px;
+	height: 60px;
+	line-height: 60px;
+	position:absolute;
+	left:0px;
+	top:0;
+	padding-left: 60px;
+	background:url(../image/surface-ban.png) no-repeat;
+	background-size:50px 50px;
+	background-position:10px 10px;
+	font-size: 34px;
+	color: #FFF;
+}
+.coinbox span{
+    width: 20px;
+    height: 25px;
+    float: left;
+    margin-right: 4px;
+    margin-top: 22px;
+	background-image:url(../image/top-num.png);
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	/*background-size:20px 25px;*/
+}
+
+
+/*时间*/
+.clockbox{
+	width:100px;
+	height: 60px;
+	line-height: 60px;
+	position:absolute;
+	right:15px;
+	top:0;
+	padding-left: 45px;
+	background:url(../image/clock.png) no-repeat;
+	background-size:45px 42px;
+	background-position:0px 10px;
+	font-size: 34px;color: #FFF;
+}
+.clockbox span{
+	display: inline-block;
+	width: 20px;
+    height: 25px;
+    margin: 20px -10px 0px 0px;
+	background-image:url(../image/top-num.png);
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	/*background-size:20px 25px;*/
+}
+.clockbox .min{
+	background-position: -100px 0px;
+}
+.clockbox img{
+	display: inline-block;
+	margin:-11px -14px 0px -5px;
+	width:20px;
+	height:25px;
+	vertical-align: middle;
+}
+
+/*3s倒计时*/
+.countDown{
+	width:100%;
+	height:100%;
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    display: none;
+}
+.countDown>span{
+	display: inline-block;
+	width:100px;
+	height:133px;
+	background-image:url(../image/countDown.png);
+	background-repeat: no-repeat;
+	background-position:  -200px 0px;
+    position: absolute;
+	left: 50%;
+    top: 38%;
+    transform: translate(-50%);
+}
+.countDown .tips{
+	width:100%;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	z-index: 12;
+}
+
+
+/*没有机会了*/
+.nochances{
+	background: url(../image/noChances.png) no-repeat top center;
+	background-size: 100%;
+	display: none;
+}
+.nochances button{
+	width:42%;
+	height:13%;
+	position: relative;
+	top: 75%;
+	margin-left: 5%;
+}
+.nochances .homepage{	
+	background: url(../image/homepage.png) no-repeat top center;
+	background-size: 100%;
+}
+
+.nochances .share{
+	background: url(../image/share.png) no-repeat top center;
+	background-size: 100%;
+}
+
+
+
+/*分数*/
+.scoreBox{
+	background: url(../image/fail.png) no-repeat top center;
+	background-size: 100%;
+	display: none;
+}
+.scoreshow{
+    height: 15%;
+    position: absolute;
+    right: 8%;
+    margin-top: 32%;
+}
+.scoreshow span{
+	float: left;
+	width:50px;
+	height: 60px;
+	background-image:url(../image/score-num.png);
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	/*background-size:40px 45px;*/
+}
+.scoreBox button{
+	width:42%;
+	height:13%;
+	margin-top: 76%;	
+}
+
+.scoreBox .getCard{
+    margin-left: 50%;
+    transform: translateX(-50%);
+	background: url(../image/getCard.png) no-repeat top center;
+	background-size: 100%;
+	display: none;
+}
+.scoreBox .homepage{	
+	background: url(../image/homepage.png) no-repeat top center;
+	background-size: 100%;
+	margin-left: 5%;
+}
+
+.scoreBox .again{
+	background: url(../image/again.png) no-repeat top center;
+	background-size: 100%;
+	margin-left: 4%;
+}
+
+
+
+/*刮刮乐*/
+.guaguale{
+	text-align: center;
+	background: url(../image/surface.png) no-repeat top center;
+	background-size: 100%;
+	display: none;
+}
+.guaguale .title-lucky{
+	width:60%;
+	margin-top: 7%;
+}
+.guaguale .cardmonkey{
+	width:46%;
+	margin-left: 50%;
+	transform: translateX(-50%);
+	position: relative;
+}
+.guaguale .cardmonkey img{
+	width:100%;
+    position: relative;
+    z-index: 3;
+}
+.guaguale .cardmonkey span{
+	width: 80%;
+    height: 97%;
+    position: absolute;
+    right: -26%;
+    background: url(../image/blings.png) no-repeat top center;
+    background-size: 100%;
+    top: 0%;
+    transform-origin:50% 50%;
+    -webkit-transform-origin:50% 50%;
+    -moz-transform-origin:50% 50%;
+    -o-transform-origin:50% 50%;
+    animation:blingsrotate 5s linear infinite;
+    -webkit-animation:blingsrotate 5s linear infinite;
+    -moz-animation:blingsrotate 5s linear infinite;
+    -o-animation:blingsrotate 5s linear infinite;
+}
+.scratchCard{
+	width:75%;
+    height: 17%;
+	margin:auto;
+	position: relative;
+	/*text-align: center;*/
+	background: url(../image/scratch-bg.png) no-repeat top center;
+	background-size: 100% 100%;
+	/*./image/scratch-bg.png*/
+}
+.scratchCard img{
+	width:100%;
+	position: relative;
+	z-index: 1;
+}
+.scratchCard .scratch-money{
+	width: 100%;
+	text-align: center;
+	font-size: 30px;
+	color:#fff;
+	position: absolute;
+	/*left: 0px;*/
+	top: 50%;
+	/*top:0px;*/
+	transform: translateY(-50%);
+	z-index: 2;
+}
+.cardcanvas{
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 3;
+   /* width: 100%;
+    height: 100%;*/
+    /*background: url(../image/scratch.png) no-repeat top center;
+	background-size: 100%;*/
+}
+
+.guaguale button{
+	width:42%;
+	height:13%;
+	margin-top: 3%;
+	float: left;	
+}
+.guaguale .homepage{	
+	background: url(../image/homepage.png) no-repeat top center;
+	background-size: 100%;
+	margin-left: 7%;
+}
+
+.guaguale .share{
+	background: url(../image/share.png) no-repeat top center;
+	background-size: 100%;
+	margin-left: 3%;
+}
+
+
+/*识别二维码*/
+.follow{
+	width:100%;
+	height: 100%;
+	background: url(../image/scan-qr.png) no-repeat top center;
+	background-size: 100% 100%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	display: none;
+}
+
+/*分享提示*/
+.shareTips{
+	width:100%;
+	height:100%;
+	position: absolute;
+	left:0px;
+	top:0px;
+	display:none;
+}
+.shareTips span{
+	display:inline-block;
+	width:100%;								
+	position: absolute;
+	top:0px;
+	left:0px;
+    z-index: 99999;
+}
+.sharetip-bg{
+	height:100%;
+	background-color:#000;
+	opacity: 0.7;
+}
+.sharetip{
+	height:28%;
+	background:url(../image/share-tip.png?stamp=2) no-repeat top center;
+    background-size: 100%;
+    margin-left: 0%;			
+}
+
+
+.demo{
+	width:100%;
+	height:100%;
+	position: absolute;
+	left: 0px;
+	top:0px;
+	/*display: none;*/
+}
+.demo-bg{
+	display:inline-block;
+	width:100%;								
+	position: absolute;
+	top:0px;
+	left:0px;
+    z-index: 9;
+    height:100%;
+	background-color:#000;
+	opacity: 0.7;
+}
+.demo-txt{
+	width:80%;
+	margin-top: 20%;
+	margin-left: 50%;
+	transform: translateX(-50%);
+	position: relative;
+	z-index: 10;
+}
+.demohand-box{
+	width:25%;
+	position: relative;
+	z-index: 11;
+	margin: 20% 0% 0% 50%;
+}
+.demo-circle{
+	width:100%;
+	animation:democircle 2s linear infinite;
+    -webkit-animation:democircle 2s linear infinite;
+    -moz-animation:democircle 2s linear infinite;
+    -o-animation:democircle 2s linear infinite;
+}
+.demo-hand{
+	width:80%;
+	position: absolute;
+	left: 38%;
+	top:38%;
+	animation:demoHand 1s linear infinite;
+    -webkit-animation:demoHand 1s linear infinite;
+    -moz-animation:demoHand 1s linear infinite;
+    -o-animation:demoHand 1s linear infinite;
+}
+.demo-tips{
+	width:100%;
+	position: absolute;
+	bottom: 0px;
+	z-index: 12;
+}
+
+
+
+
+
+
+
+/*blingsrotate*/
+@keyframes blingsrotate {
+	0% {
+		transform:rotate(0deg);
+	}	 
+	100% {
+		transform:rotate(360deg);
+	}
+}
+@-webkit-keyframes blingsrotate {
+	0% {
+		transform:rotate(0deg);
+	}	 
+	100% {
+		transform:rotate(360deg);
+	}
+}
+@-moz-keyframes blingsrotate {
+	0% {
+		transform:rotate(0deg);
+	}	 
+	100% {
+		transform:rotate(360deg);
+	}
+}
+@-o-keyframes blingsrotate {
+	0% {
+		transform:rotate(0deg);
+	}	 
+	100% {
+		transform:rotate(360deg);
+	}
+}
+
+
+@keyframes democircle {
+	0% {
+		opacity: 0;
+	}	 
+	100% {
+		opacity: 1;
+	}
+}
+@-webkit-keyframes democircle {
+	0% {
+		opacity: 0;
+	}	 
+	100% {
+		opacity: 1;
+	}
+}
+@-moz-keyframes democircle {
+	0% {
+		opacity: 0;
+	}	 
+	100% {
+		opacity: 1;
+	}
+}
+@-o-keyframes democircle {
+	0% {
+		opacity: 0;
+	}	 
+	100% {
+		opacity: 1;
+	}
+}
+
+
+
+@keyframes demoHand {
+	0% {
+		transform:translateY(0%);
+	}	 
+	100% {
+		transform:translateY(-38%);
+	}
+}
+@-webkit-keyframes demoHand {
+	0% {
+		transform:translateY(0%);
+	}	 
+	100% {
+		transform:translateY(-38%);
+	}
+}
+@-moz-keyframes demoHand {
+	0% {
+		transform:translateY(0%);
+	}	 
+	100% {
+		transform:translateY(-38%);
+	}
+}
+@-o-keyframes demoHand {
+	0% {
+		transform:translateY(0%);
+	}	 
+	100% {
+		transform:translateY(-38%);
+	}
+}

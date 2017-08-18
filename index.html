@@ -3,30 +3,108 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
-	<style>
-		body{margin:0;padding:0;}
-		*{
-			margin:0;padding:0;
-		}
-		canvas{
-			display: block;
-		}
-		.view{position: relative;}
-		#coins{width:90px;height: 70px;line-height: 70px;position:absolute;left:0px;top:0;padding-left: 60px;background:url(image/banana.png) no-repeat;background-size:30px 30px;background-position:20px 20px;font-size: 34px;color: #FFF;}
-	</style>
-	<title>简单跑酷游戏</title>
-	<script src="./easeljs-0.7.1.min.js"></script>
-	<script src="./preloadjs-0.4.1.min.js"></script>
-	<script src="./person.js"></script>
-	<script src="./otherThings.js"></script>
+	<title>路遥知马力</title>
+	<link rel="stylesheet" href="./css/index.css">
+	<script type="text/javascript" src="http://zt.gzl.com.cn/subject/js/jquery-1.11.1.min.js"></script>
+	<script src="./js/easeljs-0.7.1.min.js"></script>
+	<script src="./js/preloadjs-0.4.1.min.js"></script>
+	<script src="./js/untils.js"></script>
+	<script src="./js/person.js"></script>
+	<script src="./js/otherThings.js"></script>
 </head>
 <body>
 	<div class="view">
-		<canvas id="cas">您的浏览器不支持canvas</canvas>
-		<div id="coins">0</div>
-	</div>
-	<div id="showFPS" style="display: block;"></div>
+		<canvas class="maincanvas" id="cas">您的浏览器不支持canvas</canvas>
 
-	<script src="./main.js"></script>
+		<!-- loading页 -->
+		<div class="loadding">
+			<img class="loadding-monkey" src="./image/loading-monkey.gif" alt="">
+			<div class="loadding-inner">
+				<span></span>
+			</div>
+			<img class="loadding-txt" src="./image/loading-txt.png" alt="">
+		</div>
+
+		<!-- 香蕉数 -->
+		<div id="coins" class="coinbox">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+
+		<!-- 时间 -->
+		<div id="clock" class="clockbox">
+			<span></span>
+			<span class="min"></span>
+			<img src="./image/top.png" alt="">
+			<span></span>
+			<span></span>
+		</div>
+
+		<!-- 倒数3s -->
+		<div id="count" class="countDown">
+			<span></span>
+			<!-- <img class="tips" src="./image/tips.png" alt=""> -->
+		</div>
+
+		<!-- 没有机会了 -->
+		<div id="noChance" class="nochances surface">
+			<button class="homepage"></button>
+			<button class="share"></button>
+		</div>
+
+		<!-- 分数情况 -->
+		<div id="score" class="scoreBox surface">
+			<div id="scoreShow" class="scoreshow">		
+				<span></span>
+				<span></span>
+				<span></span>		
+			</div>			
+			<button class="getCard"></button>
+			<button class="homepage"></button>
+			<button class="again"></button>
+		</div>
+
+		<!-- 刮刮乐 -->
+		<div id="ggl" class="guaguale surface">
+			<img class="title-lucky" src="./image/title-lucky.png" alt="">
+			<div class="cardmonkey">
+				<img src="./image/card-monkey.png" alt="">
+				<span></span>
+			</div>
+			<div id="card" class="scratchCard">
+				<!-- <img src="./image/scratch-bg.png" alt=""> -->
+				<p  class="scratch-money">
+					<span class="money">3</span><span>元</span>
+				</p>
+				<canvas class="cardcanvas" id="cardarea"></canvas>
+			</div>
+			<button class="homepage"></button>
+			<button class="share"></button>
+		</div>
+		
+		<!-- 扫码关注 -->
+		<div class="follow">			
+		</div>
+
+		<!-- 分享提示 -->
+		<div class="shareTips">
+			<span class="sharetip-bg"></span>
+			<span class="sharetip"></span>
+		</div>
+
+		<!-- 试玩 -->
+		<div class="demo">
+			<span class="demo-bg"></span>
+			<img class="demo-txt" src="./image/demo-txt.png" alt="">
+			<div class="demohand-box">
+				<img class="demo-circle" src="./image/demo-circle.png" alt="">
+				<img class="demo-hand" src="./image/demo-hand.png" alt="">
+			</div>
+			<img class="demo-tips" src="./image/tips.png" alt="">
+		</div>
+	</div>
+	<div id="showFPS" style="display: none;"></div>
+	<script src="./js/main.js"></script>
 </body>
 </html>

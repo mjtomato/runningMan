@@ -49,7 +49,7 @@ window.onload = function (argument) {
 				this.shape.setTransform(this.x, this.y, 1, this.scaley);
 				// console.log('floor',this.x , this.y)
 			}else {
-				this.h = -1000;
+				this.h = -2000;
 				this.w = 170;
 				this.y = C_H - this.h;
 				this.shape.graphics.beginFill("#000").drawRect(0, 0, this.w, this.h);
@@ -73,10 +73,8 @@ window.onload = function (argument) {
 			this.y = 0,
 			this.isget = false;
 			this.init = function(){
-				// console.log(kind);
 				this.shape = new createjs.Shape();
 				if (this.kind == "1") {
-					// console.log(111);
 					this.y = PER_HEIGHT*1;
 				}else if (this.kind == "2") {
 					this.y = PER_HEIGHT*2;
@@ -85,10 +83,10 @@ window.onload = function (argument) {
 				}else if (this.kind == "5") {
 					this.y = PER_HEIGHT*5;
 				}
-				// console.log(this.x,this.y);
+				// console.log(this.y);
 				this.shape.graphics.beginBitmapFill(image).drawRect(0, 0, image.width, image.height);
 				this.shape.setTransform(this.x, this.y, COIN_SCALE_X, COIN_SCALE_Y);
-				this.shape.visible = true;
+				this.shape.visible = false;
 				stage.addChild(this.shape);
 
 			}
@@ -126,6 +124,55 @@ window.onload = function (argument) {
 					h:PER_HEIGHT
 				}
 			}
+		}
+
+
+		//障碍物类
+		var Obstacle = function(x , kind , allImage){
+			this.x = x;
+			this.kind = kind;
+			this.allImage = allImage;
+			this.init = function(){
+				this.shape = new createjs.Shape();
+				if (this.kind !== "C") {
+					if (this.kind == "D") {
+						this.y = PER_HEIGHT * 3;
+					}else if (this.kind == "E") {
+						this.y = PER_HEIGHT * 4;
+					}else if(this.kind == "F") {
+						this.y = PER_HEIGHT * 5;
+					}
+					this.h = this.allImage[this.kind].height;
+					this.w = this.allImage[this.kind].width;
+					this.sizeX = (PER_HEIGHT/this.allImage[this.kind].height);
+					this.sizeY = (PER_HEIGHT/this.allImage[this.kind].height);					
+					this.shape.graphics.beginStroke("rgba(255,0,0,0.5)").beginBitmapFill(this.allImage[this.kind]).drawRect(0, 0, this.w, this.h);
+					this.shape.setTransform(this.x, this.y, this.sizeX, this.sizeY);
+				}else{
+					this.h = -2000;
+					this.w = 170;
+					this.y = C_H - this.h;
+					this.shape.graphics.beginFill("#000").drawRect(0, 0, this.w, this.h);
+					this.shape.setTransform(this.x, this.y, 1, 1);
+				}
+				this.shape.visible = false;
+				this.shape.cache(0 , 0 , this.w , this.h);
+				stage.addChild(this.shape);
+			}
+			this.init();
+			this.update = function(){
+				this.shape.x -= SPEED;
+			}
+			this.size = function(){
+				return {
+					w:PER_WIDTH,
+					h:PER_HEIGHT
+				}
+			}
+		}
+
+		w.createObstale = function(x , kind , allImage){
+			return new Obstacle(x , kind , allImage);
 		}
 
 		w.createCoin = function(x,image , kind){
